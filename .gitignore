@@ -1,0 +1,50 @@
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+
+# Django stuff
+*.log
+*.sqlite3
+/db.sqlite3
+
+# Media files
+/media
+
+# Static files
+/staticfiles
+
+# Temporary files
+*.swp
+*.swo
+*.DS_Store
+*.egg-info/
+.eggs/
+*.egg
+dist/
+build/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VSCode
+.vscode/
+
+# IDE specific files
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# pyenv
+.python-version
+
+# Coverage reports
+.coverage
+coverage.xml
+htmlcov/
+
+moxieDev/
