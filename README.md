@@ -24,7 +24,7 @@ Please replace YOUR_SECRET_PASSWORD with the password you want to use.
     scripts/setup.sh
     ```  
 
-TO supply step 12: You can (after you see the project on), open a second terminal, navigate to the source main folder, enter the virtualenv and run the second one.
+TO supply step 12: You can (after you see the project on), open a second terminal, navigate to the source main folder, enter the virtualenv and run the second one. You should also consider steps 15.
     ```bash
     scripts/create_super_user.sh
     ```  
@@ -101,6 +101,19 @@ After that, follow these steps for database setup:
     ```
 14. Access the admin tool by clicking on the following link: [`localhost:8000/admin`](http://localhost:8000/admin).
 
+15. On another tab in same folder, create a service products types categories and product suppliers:
+    ```bash
+    ./script/create_service_categories.sh
+    ./script/create_service_products.sh
+    ./script/create_service_types.sh
+    ./script/create_service_product_suppliers.sh
+    ```
+
+## TEST
+The project has models test, serializer test and view test. You can test them with:
+    ```bash
+    python manage.py test
+    ```
 
 ## IMPORTANT PRIOR TO API USE
 
