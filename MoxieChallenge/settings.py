@@ -9,8 +9,16 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+# Database
+# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+import environ
+import os
 from pathlib import Path
+
+
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env()  # Reads the .env file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +28,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_++y_$8_-y%-&mf&tvgq2)$h3!b81+&h$xn0+26t)i*pq1wp2n'
+insecure_key='django-insecure-_++y_$8_-y%-&mf&tvgq2)$h3!b81+&h$xn0+26t)i*pq1wp2n'
+SECRET_KEY = env('SECRET_KEY', default=insecure_key)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=True),
 
 ALLOWED_HOSTS = []
 
@@ -72,25 +81,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MoxieChallenge.wsgi.application'
 
+def is_running_tests():
+    return 'test' in os.environ.get('DJANGO_COMMAND', '')
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-import environ
-
-# Initialize environment variables
-env = environ.Env()
-environ.Env.read_env()  # Reads the .env file
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('POSTGRES_DB', default='moxie'),
-        'USER': env('POSTGRES_USER', default='postgres'),
-        'PASSWORD': env('POSTGRES_PASSWORD', default='postgres'),
-        'HOST': env('HOST', default='localhost'),
-        'PORT': env('PORT', default='5432'),
+# Database configuration
+# Using sqlite for tests.
+if is_running_tests():
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env('POSTGRES_DB', default='moxie'),
+            'USER': env('POSTGRES_USER', default='postgres'),
+            'PASSWORD': env('POSTGRES_PASSWORD', default='postgres'),
+            'HOST': env('HOST', default='localhost'),
+            'PORT': env('PORT', default='5432'),
+        }
+    }
 
 
 # Password validation

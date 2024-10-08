@@ -1,5 +1,6 @@
 from django.contrib import admin
-from api.models import MedSpa, Service, Appointment, AppointmentServiceRel
+from api.models import MedSpa, Service, Appointment, AppointmentServiceRel, \
+    ServiceProduct, ServiceCategory, ServiceType, ServiceProductSupplier
 
 @admin.register(MedSpa)
 class MedSpaAdmin(admin.ModelAdmin):
@@ -22,3 +23,6 @@ class AppointmentAdmin(admin.ModelAdmin):
 class AppointmentServiceRelAdmin(admin.ModelAdmin):
     list_display = ('appointment', 'service')
     list_filter = ('appointment', 'service')
+
+for x in ServiceProduct, ServiceCategory, ServiceType, ServiceProductSupplier:
+    admin.site.register(x)

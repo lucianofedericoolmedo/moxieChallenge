@@ -136,6 +136,12 @@ constraints of inventory or availability slots, also duration is expressed in mi
 
 **Why?**: Avoid implementing inventory or slot management systems.
 
+### Not tracking the dependencies of services product with categories or service product supplier
+
+**Assumption**: Did not establish validations for given a service. For instance: Neuromodulator (type), Restylane (product) seems to be invalid in the excel sheet and is a valid in this model. A better solution should take this into consideration but I am not due to time.
+
+**Why?**: Avoid implementing inventory or slot management systems.
+
 [docker]: https://www.docker.com/
 [python]: https://www.python.org/
 [pip]: https://pypi.org/project/pip/

@@ -46,6 +46,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
         representation['total_price'] = instance.total_price
         return representation
 
+    def validate_services(self, value):
+        if len(value) == 0:
+            raise serializers.ValidationError("The appointment requires at least one service")
+        return value
+
     def validate_start_time(self, value):
         start_office_hour = time(9, 0)  # 9 AM
         end_office_hour = time(18, 0)  # 6 PM
@@ -68,7 +73,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
         
         # Check if the expected end time exceeds 6 PM
         end_office_hour = time(18, 0)  # 6 PM
-        if self.is_post():
+        if 'start_time' in data and 'services' in data:
             total_duration = data['start_time'] + timedelta(minutes=sum([service.duration for service in data['services']]))
             if total_duration.time() > end_office_hour:
                 raise serializers.ValidationError("The sum of start time and total duration of services must not exceed 6 PM.")

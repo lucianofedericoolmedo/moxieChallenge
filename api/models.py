@@ -19,15 +19,52 @@ class MedSpa(models.Model):
         return self.name
 
 
+class ServiceProduct(models.Model):
+    """Model representing a service offered by a ServiceProduct."""
+    name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+class ServiceCategory(models.Model):
+    """Model representing a service offered by a ServiceCategory."""
+    name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+class ServiceType(models.Model):
+    """Model representing a service offered by a ServiceType."""
+    name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ServiceProductSupplier(models.Model):
+    """Model representing a service offered by a ServiceProductSupplier."""
+    name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Service(models.Model):
     """Model representing a service offered by a MedSpa."""
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     duration = models.PositiveIntegerField()  # Duration in minutes
-
     med_spa = models.ForeignKey(MedSpa, related_name='services', on_delete=models.CASCADE)
-
+    service_product = models.ForeignKey(ServiceProduct, related_name='services', on_delete=models.SET_NULL, null=True, blank=True)
+    service_category = models.ForeignKey(ServiceCategory, related_name='services',on_delete=models.SET_NULL, null=True, blank=True)
+    service_type = models.ForeignKey(ServiceType, related_name='services', on_delete=models.SET_NULL, null=True, blank=True)
+    service_product_supplier = models.ForeignKey(ServiceProductSupplier, related_name='services', on_delete=models.SET_NULL, null=True, blank=True)
+    
     def __str__(self):
         return self.name
 
